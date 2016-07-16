@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">駅Sensing</string>
+    <string name="file_name">FileName</string>
+    <string name="sensor_type">SensorType</string>
+    <string name="annotation">Annotation</string>
+    <string name="folder">Sensing</string>
+    <string name="delimiter">-</string>
+</resources>
