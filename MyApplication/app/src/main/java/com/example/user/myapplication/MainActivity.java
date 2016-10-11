@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                 );
         buttonChange.setOnClickListener(onClickChange);
 
-        RadioGroup group = (RadioGroup)findViewById(R.id.radioGroup);
-        group.check(R.id.radioButton_stop);
+
     }
 
     @Override
@@ -71,11 +70,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         messenger = new Messenger(service);
 
-        RadioGroup group = (RadioGroup)findViewById(R.id.radioGroup);
-        AnnotationListener listener = new AnnotationListener(this,messenger,HandlerTypes.ANNOTATION_CHANGE);
-        group.setOnCheckedChangeListener(listener);
-
-        Toast.makeText(this,"ServiceStart", Toast.LENGTH_SHORT);
+        Toast.makeText(this,"ServiceStart", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -85,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
      */
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        Toast.makeText(this,"ServiceEnd", Toast.LENGTH_SHORT);
+        Toast.makeText(this,"ServiceEnd", Toast.LENGTH_SHORT).show();
     }
 
 

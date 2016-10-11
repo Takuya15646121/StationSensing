@@ -18,19 +18,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class SensorListenerImpl implements SensorEventListener {
 
-    private final Recorder recorder;
     private final int sensorType;
     private volatile SensorEvent latestEvent;
     private ScheduledExecutorService scheduledExecutor;
 
     /**
      * コンストラクタ
-     * @param recorder 記録用オブジェクト
+     *
      * @param sensorType 使用するセンサのタイプ．Sensor.TYPE_XXXXで指定する
      * @param inertialFrequency センサの取得間隔．Sensor.DELAY_FASTEST以下で指定する
      */
-    public SensorListenerImpl(Recorder recorder, int sensorType, long inertialFrequency){
-        this.recorder = recorder;
+    public SensorListenerImpl(int sensorType, long inertialFrequency){
         this.sensorType = sensorType;
         scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutor.scheduleAtFixedRate(
@@ -93,15 +91,7 @@ public class SensorListenerImpl implements SensorEventListener {
             if(event == null){
                 return;
             }
-            if(isRecordable(event.timestamp)){
-                List<Object> list = new ArrayList<>();
-                list.add(event.timestamp);
-                list.add(event.accuracy);
-                for(float value:event.values){
-                    list.add(value);
-                }
-                SensorListenerImpl.this.recorder.record(list.toArray(new Object[0]));
-            }
+
         }
 
         private boolean isRecordable(long newTime){

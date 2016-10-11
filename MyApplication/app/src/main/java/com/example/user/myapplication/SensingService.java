@@ -19,6 +19,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.example.user.myapplication.routeextraction.RouteExtractorImpl;
+import com.example.user.myapplication.routeextraction.Station;
+import com.example.user.myapplication.scheduler.RouteScheduler;
+import com.example.user.myapplication.scheduler.RouteSchedulerImpl;
 import com.example.user.myapplication.sensing.CSVRecorder;
 import com.example.user.myapplication.sensing.SensorListenerImpl;
 import com.example.user.myapplication.sensing.Recorder;
@@ -32,7 +36,6 @@ public class SensingService extends Service{
     private static final long INERTIAL_FREQUENCY_MILLIS = 20;
     private static final long LOCATION_FREQUENCY_MILLIS = 1000;
 
-    private List<Recorder> sensorRecorders;
     private Messenger messenger;
     private SensorManager sensorManager;
     private List<SensorEventListener> sensorListeners;
@@ -40,7 +43,6 @@ public class SensingService extends Service{
     @Override
     public void onCreate(){
         super.onCreate();
-        this.sensorRecorders = new ArrayList<>();
         this.sensorListeners = new ArrayList<>();
         messenger = new Messenger((new SensingHandler((getApplicationContext()))));
     }
@@ -52,33 +54,22 @@ public class SensingService extends Service{
         //ファイル名
         //センサ種類
         //最初のアノテーション
-        String filePath = joinDate(intent.getStringExtra(getString(R.string.file_name)),true);
 
-        int[] checkedIdList = intent.getIntArrayExtra(getString(R.string.sensor_type));
+        String startName = intent.getCharSequenceExtra(getString(R.string.start_name)).toString();
+        String endName = intent.getCharSequenceExtra(getString(R.string.end_name)).toString();
 
-        String firstAnnotation = intent.getStringExtra(getString(R.string.annotation));
+        Station[] route = new RouteExtractorImpl(this).getUsingRoute(startName,endName);
+        RouteScheduler scheduler = new RouteSchedulerImpl(route);
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
-        for(int checkedId:checkedIdList){
-            AvailableSensorData sensorData = AvailableSensorData.getMatchedInstance(checkedId);
-            if(sensorData==null){
-                continue;
-            }
-            try {
-                Recorder recorder = new CSVRecorder(filePath+ getString(R.string.delimiter)+sensorData.getName());
-                recorder.open();
-
-                recorder.setAnnotation(firstAnnotation);
-                sensorRecorders.add(recorder);
-                SensorEventListener listener = new SensorListenerImpl(recorder,sensorData.getType(),INERTIAL_FREQUENCY_MILLIS);
-                sensorListeners.add(listener);
-                sensorManager.registerListener(listener,sensorManager.getDefaultSensor(sensorData.getType()),SensorManager.SENSOR_DELAY_FASTEST);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+        AvailableSensorData[] sensorDatas = new AvailableSensorData[]{AvailableSensorData.ACC,AvailableSensorData.MAG};
+        for(AvailableSensorData sensorData:sensorDatas) {
+            SensorEventListener listener = new SensorListenerImpl(sensorData.getType(), INERTIAL_FREQUENCY_MILLIS);
+            sensorListeners.add(listener);
+            sensorManager.registerListener(listener, sensorManager.getDefaultSensor(sensorData.getType()), SensorManager.SENSOR_DELAY_FASTEST);
         }
+
 
         return messenger.getBinder();
     }
@@ -94,9 +85,7 @@ public class SensingService extends Service{
             }
             sensorManager.unregisterListener(listener);
         }
-        for(Recorder recorder: sensorRecorders){
-            recorder.close();
-        }
+
 
     }
 
@@ -116,10 +105,7 @@ public class SensingService extends Service{
             Log.d("handleMessage",message.toString());
             switch (message.what){
                 case HandlerTypes.ANNOTATION_CHANGE:
-                    for(Recorder recorder:SensingService.this.sensorRecorders){
-                        recorder.setAnnotation(message.obj.toString());
-                    }
-                    break;
+                   break;
                 case HandlerTypes.WALKING_TYPE_CHANGE:
                     /*これに対応するラジオグループを作成した場合は記述*/
                     break;

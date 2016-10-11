@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.example.user.myapplication.R;
 import com.example.user.myapplication.SensingService;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +32,11 @@ import java.util.List;
  */
 class RecordListener implements View.OnClickListener{
 
-    private final CheckBoxGroup checkBoxGroup;
-    private final TextFieldGroup textFieldGroup;
+
     private final Activity activity;
     private final ServiceConnection connection;
+    private final TextView startText;
+    private final TextView endText;
     private final Button recordButton;
     private final Button stopButton;
 
@@ -44,10 +47,13 @@ class RecordListener implements View.OnClickListener{
      *
      */
     public RecordListener(Activity activity,ServiceConnection conn){
-        this.checkBoxGroup = new CheckBoxGroup(getSensorCheckBoxArray(activity));
-        this.textFieldGroup = new TextFieldGroup(activity,getEditTextView(activity, RecordingProperty.getAllEditTextId()));
         this.activity = activity;
         this.connection = conn;
+
+        int[] editTextId = RecordingProperty.getParentDirNameId();
+        this.startText = (TextView)activity.findViewById(editTextId[0]);
+        this.endText = (TextView) activity.findViewById(editTextId[1]);
+
         this.recordButton = (Button) activity.findViewById(RecordingProperty.RECORD_BUTTON_ID);
         this.stopButton = (Button)activity.findViewById(RecordingProperty.STOP_BUTTON_ID);
 
@@ -62,35 +68,12 @@ class RecordListener implements View.OnClickListener{
             if(isServiceAlive(SensingService.class)==false){
                 Intent intent = new Intent(activity,SensingService.class);
 
-                //Android4.2以降の内蔵ストレージ(DCIM)以下にSensingフォルダを作成する
-                String targetName = textFieldGroup.getJoinedName(RecordingProperty.getParentDirNameId());
 
-                File targetDir = makeTargetDir(targetName);
+                CharSequence startName = this.startText.getText();
+                CharSequence endName = this.endText.getText();
 
-                intent.putExtra(activity.getString(R.string.file_name)
-                        ,targetDir.getAbsolutePath()
-                                +File.separator
-                                +textFieldGroup.getJoinedName(RecordingProperty.getFileNameID())
-                );
-
-
-                List<Integer> checkedIdList = checkBoxGroup.getCheckedId();
-                if(checkedIdList.size()==0){
-                    return;
-                }
-
-                int[] checkedIdArray = getPrimitiveArray(checkedIdList.toArray(new Integer[0]));
-
-                intent.putExtra(activity.getString(R.string.sensor_type),checkedIdArray);
-
-
-                RadioGroup annotationGroup = (RadioGroup)activity.findViewById(R.id.radioGroup);
-
-                intent.putExtra(activity.getString(R.string.annotation),(
-                        (RadioButton)activity
-                        .findViewById(annotationGroup.getCheckedRadioButtonId()))
-                        .getText()
-                );
+                intent.putExtra(this.activity.getString(R.string.start_name),startName);
+                intent.putExtra(this.activity.getString(R.string.end_name),endName);
 
                 activity.bindService(intent,connection, Context.BIND_AUTO_CREATE);
                 recordButton.setEnabled(false);

@@ -18,4 +18,5 @@ public final class HandlerTypes {
      */
     public static final int WALKING_TYPE_CHANGE = 1;
 
+
 }

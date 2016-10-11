@@ -296,93 +296,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ラベル情報"
-                    android:id="@+id/text_labelInfo" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <RadioGroup
-                    android:layout_column="0"
-                    android:id="@+id/radioGroup">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Stop"
-                        android:id="@+id/radioButton_stop" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Running"
-                        android:id="@+id/radioButton_running" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Emergency"
-                        android:id="@+id/radioButton_emergency" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Passing"
-                        android:id="@+id/radioButton" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Other"
-                        android:id="@+id/radioButton_other"
-                        android:checked="false" />
-                </RadioGroup>
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="使用センサ"
-                    android:id="@+id/text_useSensor" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_column="0">
-
-                    <CheckBox
-                        android:text="ACC"
-                        android:id="@+id/checkBox"
-                        android:layout_column="0"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="MAG"
-                        android:id="@+id/checkBox2"
-                        android:layout_column="1" />
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="GYRO"
-                        android:id="@+id/checkBox3" />
-                </LinearLayout>
             </TableRow>
 
             <TableRow
