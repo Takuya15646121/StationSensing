@@ -28,4 +28,7 @@ dependencies {
     compile files('C:/Users/CARROT/Documents/GitHub/StationSensing/MyApplication/libraries/Feature.jar')
     compile files('C:/Users/CARROT/Documents/GitHub/StationSensing/MyApplication/libraries/Window.jar')
     compile files('C:/Users/CARROT/Documents/GitHub/StationSensing/MyApplication/libraries/weka.jar')
+    compile files('C:/Users/user/Documents/GitHub/StationSensing/MyApplication/libraries/Feature.jar')
+    compile files('C:/Users/user/Documents/GitHub/StationSensing/MyApplication/libraries/weka.jar')
+    compile files('C:/Users/user/Documents/GitHub/StationSensing/MyApplication/libraries/Window.jar')
 }
