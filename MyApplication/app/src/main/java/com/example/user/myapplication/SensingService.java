@@ -32,7 +32,6 @@ import com.example.user.myapplication.sensing.Recorder;
  */
 public class SensingService extends Service{
 
-
     private static final long INERTIAL_FREQUENCY_MILLIS = 20;
     private static final long LOCATION_FREQUENCY_MILLIS = 1000;
 

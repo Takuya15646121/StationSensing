@@ -22,7 +22,6 @@ public class FeatureExtractorWeka implements FeatureExtractor{
     @Override
     public void init() {
 
-
     }
 
 
