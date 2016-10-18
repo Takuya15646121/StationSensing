@@ -41,7 +41,7 @@ public class Main {
 		
 		//•ª—Ş‚ÌÀs
 		int classificationResult = sensingListener.stepOver(movingCls, wrapper);
-		canLocate = controller.canAcquisition(classificationResult == 1, System.currentTimeMillis());
+		canLocate = controller.canAcquisition(classificationResult == 1, sensingListener.getTime());
 		if(canLocate){
 			System.out.println("æ“¾‚Å‚«‚Ü‚·");
 		}

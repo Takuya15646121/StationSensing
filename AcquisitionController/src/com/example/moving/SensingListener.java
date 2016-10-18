@@ -30,6 +30,8 @@ public class SensingListener {
 		boolean magFlg = false;
 		//time,accuracy,x,y,z,label
 		
+		if(isEmpty())return -1;
+		
 		do{
 			String[] accElem = this.accLines.get(0).split(",");
 			String[] magElem = this.magLines.get(0).split(",");
@@ -68,5 +70,13 @@ public class SensingListener {
 		return result;
 	}
 	
+	public long getTime(){
+		String[] accElem = this.accLines.get(0).split(",");
+		return Long.parseLong(accElem[0]);
+	}
+	
+	private boolean isEmpty(){
+		return accLines.size()==0 || magLines.size()==0;
+	}
 	
 }
