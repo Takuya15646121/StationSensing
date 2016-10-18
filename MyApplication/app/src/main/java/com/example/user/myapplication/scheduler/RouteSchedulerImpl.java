@@ -11,12 +11,19 @@ import java.util.List;
  */
 public class RouteSchedulerImpl implements RouteScheduler{
 
+    private long betTime;
+    private long remainTime = 10000000000l;
     private List<Station> route;
 
     public RouteSchedulerImpl(Station[] routeInArray){
         this.route = new ArrayList<>(Arrays.asList(routeInArray));
     }
 
+    /**
+     *
+     * @param trainType
+     * @return
+     */
     @Override
     public long calcRemainTimeMillis(int trainType) {
         return 0;

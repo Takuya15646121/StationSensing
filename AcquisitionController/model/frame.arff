@@ -1,0 +1,57 @@
+@relation ひばりが?????神??
+
+@attribute variance_arx numeric
+@attribute variance_ary numeric
+@attribute kurtosis_arz numeric
+@attribute kurtosis_arm numeric
+@attribute correlation_aryarz numeric
+@attribute correlation_arzarm numeric
+@attribute fistquartile_arz numeric
+@attribute thirdquartile_arx numeric
+@attribute thirdquartile_arm numeric
+@attribute quartilerange_arz numeric
+@attribute quartilerange_arm numeric
+@attribute fftenergyall_arx numeric
+@attribute fftmaxall_arm numeric
+@attribute fftinterqall_arz numeric
+@attribute fftminfreqr1_arm numeric
+@attribute fftmedianfreqr1_arz numeric
+@attribute fftq1freqr1_ary numeric
+@attribute fftq1freqr1_arm numeric
+@attribute fftinterqr1_arm numeric
+@attribute fftentropyr2_arm numeric
+@attribute cepdensityr2_ary numeric
+@attribute cepdensityr2_arm numeric
+@attribute variance_mry numeric
+@attribute variance_mrz numeric
+@attribute variance_mrm numeric
+@attribute max_mry numeric
+@attribute max_mrm numeric
+@attribute range_mry numeric
+@attribute range_mrz numeric
+@attribute range_mrm numeric
+@attribute skewness_mrx numeric
+@attribute rms_mrm numeric
+@attribute correlation_mrxarz numeric
+@attribute max3axises_mrxaryarz numeric
+@attribute min3axises_mrxarzarm numeric
+@attribute absmin_mrm numeric
+@attribute thirdquartile_mrz numeric
+@attribute quartilerange_mry numeric
+@attribute quartilerange_mrz numeric
+@attribute quartilerange_mrm numeric
+@attribute fftmedianfreqall_mrz numeric
+@attribute fftcorrall_mryarm numeric
+@attribute fftenergyr1_mrz numeric
+@attribute fftentropyr1_mrm numeric
+@attribute fftq1freqr1_mrz numeric
+@attribute fftinterqr1_mrz numeric
+@attribute fftcorrr1_mrxarm numeric
+@attribute fftmedianr1_mrx numeric
+@attribute fftentropyr3_mry numeric
+@attribute fftmaxr3_mrx numeric
+@attribute fftmeanfreqr3_mry numeric
+@attribute class {Emergency,Passing,Running,Stop}
+
+@data
+0.007018,0.006304,4.436842,4.292469,0.15369,0.967874,9.442732,-0.976834,10.040249,0.105345,0.131611,403.898316,293.421003,0.570799,8.267717,3.543307,5.511811,7.480315,0.971727,3.779777,1.646286,20.340714,3.758516,2.7125,0.963076,4.74,-45.719997,6.18,6.96,3.060003,7.306269,47.158024,0.939718,-0.948723,-1.44,48.78,53.64,3.42,2.34,1.8,36.614173,0.984663,22.363464,0.00325,6.299213,3.892029,0.968329,0.984413,0.689153,0.001775,49.151963,Running
