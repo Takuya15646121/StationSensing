@@ -7,6 +7,7 @@ import java.util.List;
 
 import tuat.daily.phonepos.feature.base.BaseFeature;
 import tuat.daily.phonepos.feature.base.IBaseFeature;
+import tuat.daily.phonepos.feature.name.Axis;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -22,7 +23,9 @@ public class MovingClassifier {
 		try {
 			this.classfier = (Classifier)SerializationHelper.read(modelPath.getAbsolutePath());
 			String[] featureArray = getFeatures(arffPath);
+			String magName = Axis.ACC_LINEAR_X.getName();
 			this.base = new BaseFeature(featureArray);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
