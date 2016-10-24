@@ -19,15 +19,6 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	private long lastStopTime = Integer.MAX_VALUE;
 	private List<Integer> stationIdList;
 	
-	public AcquisitionControllerImpl(String prev,String to,int splitNum) {
-		try {
-			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "1021");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		this.splitNum = splitNum;
-		updateStation(prev, to);
-	}
 	
 	public AcquisitionControllerImpl(List<Integer> idList,int splitNum) {
 		try {
@@ -41,6 +32,7 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 		
 		this.updateStation();
 	}
+	
 	
 	
 	@Override
@@ -63,6 +55,7 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 			
 		} else {//Stop or other
 			lastStopTime = recentTime;
+			
 			return false;
 		}
 	}
@@ -84,13 +77,12 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	}
 	
 
-	private long getBetweenTime(int prev,int to){
-		try {
-			Statement statement = con.createStatement();
-			//¸‡‚É•ÏŠ·
-			int[] idArray = prev > to ? new int[]{to,prev}:new int[]{prev,to};
+	protected long getBetweenTime(int prev,int to){
+		
+		try{
+			int[] idArray = getOrderedStationId(prev, to);
 			String sql = "select * from join_table where prev_station="+Integer.toString(idArray[0])+" and to_station="+Integer.toString(idArray[1])+";";
-			ResultSet resultSet = statement.executeQuery(sql);
+			ResultSet resultSet = getQueryResult(sql);
 			while(resultSet.next()){
 				return resultSet.getLong("time");
 				
@@ -99,6 +91,23 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	
+	protected int[] getOrderedStationId(int prev,int to){
+		return prev > to ? new int[]{to,prev}:new int[]{prev,to};
+	}
+	
+	protected ResultSet getQueryResult(final String sql){
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			return resultSet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return null;//Žd•û‚È‚­null‚ð•Ô‚·
 	}
 
 
@@ -112,7 +121,14 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 		updateStation(prevId, this.stationIdList.get(0));
 		
 	}
+	
+	protected long getBetweenTime(){
+		return this.betweenTime;
+	}
 
+	protected List<Integer> getStationIdList(){
+		return new ArrayList(this.stationIdList);
+	}
 
 	
 	
