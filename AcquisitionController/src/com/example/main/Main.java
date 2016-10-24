@@ -25,7 +25,7 @@ public class Main {
 		}
 		
 		//‘ªˆÊ§Œä•”•ª‚Ì‰Šú‰»
-		AcquisitionController controller = new AcquisitionControllerImpl(idList, 4);
+		AcquisitionController controller = new AcquisitionControllerImpl(idList, 5);
 		boolean canLocate = controller.canAcquisition(true, System.currentTimeMillis());
 		
 		//•ª—Ş•”•ª‚Ì‰Šú‰»
@@ -43,7 +43,7 @@ public class Main {
 		//•ª—Ş‚ÌÀs
 		while(true){
 		int classificationResult = sensingListener.stepOver(movingCls, wrapper);
-		if(classificationResult == 3){
+		if(classificationResult == 3 || classificationResult == 1){
 			canLocate = controller.canAcquisition(false, sensingListener.getTime());
 		}else if(classificationResult ==2){
 			canLocate = controller.canAcquisition(classificationResult == 2, sensingListener.getTime());

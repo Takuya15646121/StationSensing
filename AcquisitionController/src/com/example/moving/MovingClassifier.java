@@ -62,7 +62,6 @@ public class MovingClassifier {
 		
 		try {
 			double type = this.classfier.classifyInstance(instance);
-			System.out.println(type);
 			return (int)type;
 		} catch (Exception e) {
 			

@@ -19,6 +19,7 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	private long lastStopTime = Integer.MAX_VALUE;
 	private List<Integer> stationIdList;
 	private boolean isPreviousStopped = false;
+	private boolean firsttime = true;
 	
 	
 	public AcquisitionControllerImpl(List<Integer> idList,int splitNum) {
@@ -32,6 +33,7 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 		this.splitNum = splitNum;
 		
 		this.updateStation();
+		
 	}
 	
 	
@@ -40,10 +42,13 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	public boolean canAcquisition(final boolean result,final long recentTime) {
 		long recentTimeMillis = recentTime/1000000;
 		if(result){//Running
-			
-			if(isPreviousStopped){
-				updateStation();
+			if(isPreviousStopped ){
 				isPreviousStopped = false;
+				if(firsttime){
+					firsttime = false;
+				} else {
+					updateStation();
+				}				
 			}
 			
 			long interval = 0;
