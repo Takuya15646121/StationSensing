@@ -63,11 +63,15 @@ public class SensingListener {
 				}
 			}
 		
-		}while(accFlg && magFlg);
+		}while(!accFlg || !magFlg);
 		int result = classifier.classify();
 		
+		
+		
+		
 		//テストモードではラベルのインデックスを渡すようにする
-		return result;
+		return getLabel();
+		//return result;
 	}
 	
 	public long getTime(){
@@ -77,6 +81,19 @@ public class SensingListener {
 	
 	private boolean isEmpty(){
 		return accLines.size()==0 || magLines.size()==0;
+	}
+	
+	private int getLabel(){
+		String[] accElem = this.accLines.get(0).split(",");
+		String label = accElem[accElem.length-1];
+		
+		String[] labels = new String[]{"Emergency","Passing","Running","Stop","Others"};
+		for(int i=0;i<labels.length;i++){
+			if(labels[i].equals(label)){
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 }

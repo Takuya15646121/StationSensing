@@ -13,8 +13,8 @@ import com.example.mysqltest.RouteDataExtractor;
 public class Main {
 	public static void main(String[] args){
 		//TODO:ここにスキットを書く
-		String start = "清瀬";
-		String end = "池袋";
+		String start = "上野";
+		String end = "浜松町";
 		
 		//駅情報の登録
 		RouteDataExtractor rde = new RouteDataExtractor();
@@ -35,15 +35,23 @@ public class Main {
 		WindowWrapper wrapper = new WindowWrapper(128, 0.5, 50);
 		
 		//ファイルリスナの初期化
-		File accFile = new File("");
-		File magFile = new File("");
+		File accFile = new File("data/上野-浜松町-ユーザ1-201609101425-acc.csv");
+		File magFile = new File("data/上野-浜松町-ユーザ1-201609101425-mag.csv");
 		SensingListener sensingListener = new SensingListener(accFile, magFile);
 		
+		int i=0;
 		//分類の実行
+		while(true){
 		int classificationResult = sensingListener.stepOver(movingCls, wrapper);
-		canLocate = controller.canAcquisition(classificationResult == 1, sensingListener.getTime());
-		if(canLocate){
-			System.out.println("取得できます");
+		if(classificationResult == 3){
+			canLocate = controller.canAcquisition(false, sensingListener.getTime());
+		}else if(classificationResult ==2){
+			canLocate = controller.canAcquisition(classificationResult == 2, sensingListener.getTime());
+			if(canLocate){
+				System.out.println("取得できます"+Integer.toString(i++));
+			}
+		}
+		
 		}
 		
 	}

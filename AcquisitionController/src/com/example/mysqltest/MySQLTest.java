@@ -94,7 +94,11 @@ public class MySQLTest {
 		}
 	}
 	
-	
+	public static void main(String[] args) throws SQLException{		
+		MySQLTest test = new MySQLTest();
+		test.makeStationTable("res/station_master_201604.csv","station_table",Arrays.asList(new String[]{"name"}));
+		test.close();
+	}
 
 	
 	

@@ -21,10 +21,10 @@ public class WindowWrapper {
 	private void init(int w_size,double w_slide){
 		
 		acc_window = new Window[4];
-		acc_window[0] = new Window(w_size,w_slide,Axis.ACC_LINEAR_X);
-		acc_window[1] = new Window(w_size,w_slide,Axis.ACC_LINEAR_Y);
-		acc_window[2] = new Window(w_size,w_slide,Axis.ACC_LINEAR_Z);
-		acc_window[3] = new Window(w_size,w_slide,Axis.ACC_LINEAR_3AXIS);
+		acc_window[0] = new Window(w_size,w_slide,Axis.ACC_RAW_X);
+		acc_window[1] = new Window(w_size,w_slide,Axis.ACC_RAW_Y);
+		acc_window[2] = new Window(w_size,w_slide,Axis.ACC_RAW_Z);
+		acc_window[3] = new Window(w_size,w_slide,Axis.ACC_RAW_3AXIS);
 		
 		
 		mag_window = new Window[4];

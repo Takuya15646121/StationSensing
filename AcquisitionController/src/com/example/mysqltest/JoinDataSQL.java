@@ -25,7 +25,6 @@ public class JoinDataSQL extends MySQLTest{
 	
 	public static void main(String[] args) throws SQLException{		
 		MySQLTest test = new JoinDataSQL();
-		//test.makeStationTable("res/station_master_201604.csv","station_table",Arrays.asList(new String[]{"name"}));
 		test.makeStationTable("res/join_201604.csv","join_table",new ArrayList<String>());
 		test.close();
 	}

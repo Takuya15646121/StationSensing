@@ -18,12 +18,12 @@ public class MovingClassifier {
 	
 	private Classifier classfier;
 	private IBaseFeature base;
+	private Instances instances;
 	
 	public MovingClassifier(File modelPath,File arffPath){
 		try {
 			this.classfier = (Classifier)SerializationHelper.read(modelPath.getAbsolutePath());
 			String[] featureArray = getFeatures(arffPath);
-			String magName = Axis.ACC_LINEAR_X.getName();
 			this.base = new BaseFeature(featureArray);
 			
 		} catch (Exception e) {
@@ -42,7 +42,8 @@ public class MovingClassifier {
 		ArffLoader loader = new ArffLoader();
 		try {
 			loader.setFile(arffPath);
-			Instances instances = loader.getDataSet();
+			this.instances = loader.getDataSet();
+			this.instances.setClassIndex(this.instances.numAttributes()-1);
 			for(int i=0;i<instances.numAttributes()-1;i++){
 				featureList.add(instances.attribute(i).name());
 			}
@@ -56,8 +57,12 @@ public class MovingClassifier {
 	
 	public int classify(){
 		Instance instance = base.makeInstance();
+		instance.setDataset(this.instances);
+		
+		
 		try {
 			double type = this.classfier.classifyInstance(instance);
+			System.out.println(type);
 			return (int)type;
 		} catch (Exception e) {
 			

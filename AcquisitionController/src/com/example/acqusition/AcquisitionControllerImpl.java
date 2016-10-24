@@ -18,6 +18,7 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	private long lastGettingTime = -1;
 	private long lastStopTime = Integer.MAX_VALUE;
 	private List<Integer> stationIdList;
+	private boolean isPreviousStopped = false;
 	
 	
 	public AcquisitionControllerImpl(List<Integer> idList,int splitNum) {
@@ -36,26 +37,32 @@ public class AcquisitionControllerImpl implements AcquisitionController{
 	
 	
 	@Override
-	public boolean canAcquisition(boolean result,long recentTime) {
+	public boolean canAcquisition(final boolean result,final long recentTime) {
+		long recentTimeMillis = recentTime/1000000;
 		if(result){//Running
-			long interval = 0;
 			
+			if(isPreviousStopped){
+				updateStation();
+				isPreviousStopped = false;
+			}
+			
+			long interval = 0;
 			if(lastGettingTime > 0){//ÇªÇÃãÊä‘Ç≈àÍìxà»è„ÇÃë™à ÇÇµÇƒÇ¢ÇÈèÍçá
-				interval = recentTime - lastGettingTime;
+				interval = recentTimeMillis - lastGettingTime;
 			} else {
-				interval = recentTime - lastStopTime;
+				interval = recentTimeMillis - lastStopTime;
 			}
 			
 			if(interval > betweenTime){//ë™à ä‘äuÇí¥Ç¶ÇΩèÍçá
-				lastGettingTime = recentTime;
+				lastGettingTime = recentTimeMillis;
 				return true;
 			} else {
 				return false;
 			}
 			
 		} else {//Stop or other
-			lastStopTime = recentTime;
-			
+			lastStopTime = recentTimeMillis;
+			isPreviousStopped = true;
 			return false;
 		}
 	}
