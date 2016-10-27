@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.mysqltest.QueryUtil;
+
 public class RouteClassifier {
 	
 	private final File dir;
@@ -31,6 +33,7 @@ public class RouteClassifier {
 			List<String> stdOut = parseInputStream(is);
 			InputStream es = process.getErrorStream();	//ïWèÄÉGÉâÅ[
 			List<String> stdErr = parseInputStream(es);
+			
 
 			process.waitFor();
 			
@@ -54,12 +57,20 @@ public class RouteClassifier {
 			for (;;) {
 				String line = br.readLine();
 				if (line == null) break;
+				System.out.println(line);
 				output.add(line);
 			}
 		} finally {
 			br.close();
 		}
 		return output;
+	}
+	
+	
+	public static void main(String[] args){
+		RouteClassifier rc = new RouteClassifier();
+		String stationName = "írë‹";
+		rc.classify(stationName, QueryUtil.getInstance().getLocation(stationName));
 	}
 	
 }
