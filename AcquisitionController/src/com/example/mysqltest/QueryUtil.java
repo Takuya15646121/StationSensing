@@ -31,8 +31,8 @@ public class QueryUtil {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
-				location[0] = rs.getDouble("latitude");
-				location[1] = rs.getDouble("longitude");
+				location[1] = rs.getDouble("latitude");
+				location[0] = rs.getDouble("longitude");
 			}
 			
 			return location;

@@ -10,66 +10,50 @@ import java.util.List;
 
 import com.example.mysqltest.QueryUtil;
 
-public class RouteClassifier {
+public class RouteClassifier extends PycodeExecuter{
 	
-	private final File dir;
 	
-	public RouteClassifier(){
-		this.dir = new File("pycode");
+	public RouteClassifier(String dir,String pyFile){
+		super(dir, pyFile);
 	}
 	
 	
 	public String classify(String master,double[] location){
 		
-		try{
-			ProcessBuilder builder = new ProcessBuilder("python","ptest.py",master,Double.toString(location[0]),Double.toString(location[1]));
-			builder.directory(this.dir);
-			
-			Process process = builder.start();
-			
+		String[] args = new String[] { master, Double.toString(location[0]),
+				Double.toString(location[1]) };
+
+		Process process = super.executePyProcess(args);
+		if (process == null) {
+			return null;
+		}
+		try {
+			process.waitFor();
+			InputStream is = process.getInputStream(); // 標準出力
+			List<String> stdOut = super.parseInputStream(is);
+			InputStream es = process.getErrorStream(); // 標準エラー
+			List<String> stdErr = super.parseInputStream(es);
+
 			process.waitFor();
 
-			InputStream is = process.getInputStream();	//標準出力
-			List<String> stdOut = parseInputStream(is);
-			InputStream es = process.getErrorStream();	//標準エラー
-			List<String> stdErr = parseInputStream(es);
-			
-
-			process.waitFor();
-			
 			return stdOut.get(0);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}finally{
-			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		return null;			
 		
-		return null;
 	}
 	
-	public static List<String> parseInputStream(InputStream is) throws IOException {
-		List<String> output = new ArrayList<String>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		try {
-			for (;;) {
-				String line = br.readLine();
-				if (line == null) break;
-				System.out.println(line);
-				output.add(line);
-			}
-		} finally {
-			br.close();
-		}
-		return output;
-	}
-	
+
 	
 	public static void main(String[] args){
-		RouteClassifier rc = new RouteClassifier();
+		RouteClassifier rc = new RouteClassifier("pycode","ptest.py");
 		String stationName = "池袋";
+		
+		//位置が違う？測地系の違い？
 		rc.classify(stationName, QueryUtil.getInstance().getLocation(stationName));
 	}
 	
